@@ -12,7 +12,7 @@ const Private = [
   { value: 1, label: "Public" },
 ];
 
-const Catogory = [
+const Categories = [
   { value: 0, label: "Problem Solving" },
   { value: 0, label: "Networks" },
   { value: 0, label: "Number System" },
@@ -24,7 +24,7 @@ function UploadVideoPage(props) {
   const [title, setTitle] = useState("");
   const [Description, setDescription] = useState("");
   const [privacy, setPrivacy] = useState(0);
-  const [Categories, setCategories] = useState("Film & Animation");
+  const [Category, setCategory] = useState();
   const [FilePath, setFilePath] = useState("");
   const [Duration, setDuration] = useState("");
   const [Thumbnail, setThumbnail] = useState("");
@@ -44,7 +44,7 @@ function UploadVideoPage(props) {
   };
 
   const handleChangeTwo = (event) => {
-    setCategories(event.currentTarget.value);
+    setCategory(event.currentTarget.value);
   };
 
   const onSubmit = (event) => {
@@ -57,7 +57,7 @@ function UploadVideoPage(props) {
     if (
       title === "" ||
       Description === "" ||
-      Categories === "" ||
+      Category === "" ||
       FilePath === "" ||
       Duration === "" ||
       Thumbnail === ""
@@ -71,7 +71,7 @@ function UploadVideoPage(props) {
       description: Description,
       privacy: privacy,
       filePath: FilePath,
-      category: Categories,
+      category: Category,
       duration: Duration,
       thumbnail: Thumbnail,
     };
@@ -174,7 +174,7 @@ function UploadVideoPage(props) {
         <br />
 
         <select onChange={handleChangeTwo}>
-          {Catogory.map((item, index) => (
+          {Categories.map((item, index) => (
             <option key={index} value={item.label}>
               {item.label}
             </option>

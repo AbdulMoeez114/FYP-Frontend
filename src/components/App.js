@@ -1,5 +1,6 @@
 import React, { Suspense } from "react";
 import { Route, Switch } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
 import Auth from "../hoc/auth";
 // pages for this product
 import LandingPage from "./views/LandingPage/LandingPage.js";
@@ -8,6 +9,7 @@ import RegisterPage from "./views/RegisterPage/RegisterPage.js";
 import NavBar from "./views/NavBar/NavBar";
 import Footer from "./views/Footer/Footer";
 import UploadVideoPage from "./views/UploadVideoPage/UploadVideoPage";
+import QuizUploadPage from "./views/QuizUploadPage/QuizUploadPage";
 
 function App() {
   return (
@@ -22,6 +24,11 @@ function App() {
             exact
             path="/video/upload"
             component={Auth(UploadVideoPage, true)}
+          />
+          <Route
+            exact
+            path="/quiz/upload"
+            component={Auth(QuizUploadPage, true)}
           />
         </Switch>
       </div>
