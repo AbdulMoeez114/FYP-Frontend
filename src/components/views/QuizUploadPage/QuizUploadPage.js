@@ -1,5 +1,5 @@
-// import Axios from "axios";
 import React, { Component } from "react";
+import axios from "axios";
 // import { Formik, Field, Form } from "formik";
 // import * as Yup from "yup";
 
@@ -7,24 +7,47 @@ class QuizUploadPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      chapters: [{ value: "" }],
       questions: [
         {
           name: "question",
           question: "",
           options: [
-            { name: "a", value: "" },
-            { name: "b", value: "" },
-            { name: "c", value: "" },
-            { name: "d", value: "" },
+            { name: "a", option: "", isCorrect: true },
+            { name: "b", option: "", isCorrect: false },
+            { name: "c", option: "", isCorrect: false },
+            { name: "d", option: "", isCorrect: false },
           ],
         },
       ],
     };
   }
 
+  componentDidMount() {
+    axios.get(`/api/chapter/`).then((res) => {
+      const chaptersList = res.data;
+      console.log(res.data);
+      this.setState({ chapters: chaptersList });
+    });
+    console.log(this.state.chapters);
+  }
+
   handleSubmit = (e) => {
     e.preventDefault();
 
+    const NewQuiz = {
+      chapterid: this.state.chapters.value,
+      Quiz: this.state.questions,
+    };
+    axios.post(`/api/quiz/upload-quiz`, NewQuiz).then((res) => {
+      if (res.status === 201) {
+        alert("Quiz Uploaded Successfully");
+        this.props.history.push("/");
+      } else {
+        alert("Failed to upload Quiz");
+      }
+    });
+    console.log(this.state.chapters);
     console.log(this.state.questions);
     console.log(e);
   };
@@ -35,10 +58,10 @@ class QuizUploadPage extends Component {
       name: "question_" + this.state.questions.length,
       question: "",
       options: [
-        { name: "a", value: "" },
-        { name: "b", value: "" },
-        { name: "c", value: "" },
-        { name: "d", value: "" },
+        { name: "a", option: "", isCorrect: true },
+        { name: "b", option: "", isCorrect: false },
+        { name: "c", option: "", isCorrect: false },
+        { name: "d", option: "", isCorrect: false },
       ],
     });
     this.setState({ questions });
@@ -66,6 +89,20 @@ class QuizUploadPage extends Component {
             </button>
           </div>
         </div>
+        <select
+          onChange={(e) => {
+            let { chapters } = this.state;
+            chapters.value = e.target.value;
+            this.setState({ chapters });
+            console.log(this.state.chapters);
+          }}
+        >
+          {this.state.chapters.map((chapter) => (
+            <option key={chapter._id} value={chapter._id}>
+              {chapter.chapterName}
+            </option>
+          ))}
+        </select>
         <div className="col-sm-6 h6 text-primary">
           Write correct answser in option a.
         </div>
@@ -102,10 +139,10 @@ class QuizUploadPage extends Component {
                         className="form-control"
                         id={option.name + index}
                         placeholder={"Option " + option.name}
-                        value={option.value}
+                        value={option.option}
                         onChange={(e) => {
                           let { questions } = this.state;
-                          question.options[innerIndex].value = e.target.value;
+                          question.options[innerIndex].option = e.target.value;
                           questions[index] = question;
                           this.setState({ questions });
                         }}
