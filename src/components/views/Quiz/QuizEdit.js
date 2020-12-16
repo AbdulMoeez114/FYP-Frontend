@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
-// import { Formik, Field, Form } from "formik";
-// import * as Yup from "yup";
 
-class QuizUploadPage extends Component {
+class QuizEdit extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -34,14 +32,15 @@ class QuizUploadPage extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-
+    let Quiz = {};
+    Quiz.quiz = this.state.questions;
     const NewQuiz = {
       chapterid: this.state.chapters.value,
-      Quiz: this.state.questions,
+      Quiz,
     };
-    axios.post(`/api/quiz/upload-quiz`, NewQuiz).then((res) => {
+    axios.put(`/api/quiz/edit-quiz`, NewQuiz).then((res) => {
       if (res.status === 201) {
-        alert("Quiz Uploaded Successfully");
+        alert("Quiz Edited Successfully");
         this.props.history.push("/");
       } else {
         alert("Failed to upload Quiz");
@@ -50,6 +49,34 @@ class QuizUploadPage extends Component {
     console.log(this.state.chapters);
     console.log(this.state.questions);
     console.log(e);
+  };
+
+  deleteQuiz = () => {
+    const URL = "/api/quiz/" + this.state.chapters.value;
+    console.log(URL);
+    axios.delete(URL).then((res) => {
+      if (res.status === 404) alert(res.data);
+      else if (res.status === 500)
+        alert("Quiz deletion failed! Server Side Error.");
+      else if (res.status === 201) {
+        alert("Quiz deleted!");
+        this.props.history.push("/quiz/edit");
+      }
+    });
+  };
+
+  getQuiz = () => {
+    const getQuiz = { chapterid: this.state.chapters.value };
+    console.log(getQuiz.chapterid);
+    const URL = "/api/quiz/" + this.state.chapters.value;
+    axios.get(URL).then((res) => {
+      if (res.status === 404) alert(res.data);
+      else if (res.status === 500) alert("Quiz retrieval failed!");
+      else {
+        console.log(res.data);
+        this.setState({ questions: res.data.quiz });
+      }
+    });
   };
 
   addQuestion = () => {
@@ -71,7 +98,7 @@ class QuizUploadPage extends Component {
     return (
       <div style={{ padding: "20px", margin: "40px" }}>
         <div className="row border rounded shadow p-2 mb-5">
-          <div className="col-sm-6 h3 text-primary">Add Quiz</div>
+          <div className="col-sm-6 h3 text-primary">Edit Quiz</div>
           <div className="col-sm-6 text-right">
             <button
               type="button"
@@ -82,10 +109,17 @@ class QuizUploadPage extends Component {
             </button>
             <button
               type="button"
-              className="btn btn-outline-primary"
+              className="btn btn-outline-primary mr-2"
               onClick={this.handleSubmit}
             >
               Save
+            </button>
+            <button
+              type="button"
+              className="btn btn-outline-primary"
+              onClick={this.deleteQuiz}
+            >
+              Delete
             </button>
           </div>
         </div>
@@ -94,6 +128,7 @@ class QuizUploadPage extends Component {
             let { chapters } = this.state;
             chapters.value = e.target.value;
             this.setState({ chapters });
+            this.getQuiz();
             console.log(this.state.chapters);
           }}
         >
@@ -160,4 +195,4 @@ class QuizUploadPage extends Component {
   }
 }
 
-export default QuizUploadPage;
+export default QuizEdit;

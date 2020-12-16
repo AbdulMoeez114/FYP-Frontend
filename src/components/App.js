@@ -8,8 +8,9 @@ import LoginPage from "./views/LoginPage/LoginPage.js";
 import RegisterPage from "./views/RegisterPage/RegisterPage.js";
 import NavBar from "./views/NavBar/NavBar";
 import Footer from "./views/Footer/Footer";
-import UploadVideoPage from "./views/UploadVideoPage/UploadVideoPage";
-import QuizUploadPage from "./views/QuizUploadPage/QuizUploadPage";
+import UploadVideoPage from "./views/Video/UploadVideoPage";
+import QuizUploadPage from "./views/Quiz/QuizUploadPage";
+import QuizEdit from "./views/Quiz/QuizEdit";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
             path="/quiz/upload"
             component={Auth(QuizUploadPage, true)}
           />
+          <Route exact path="/quiz/edit" component={Auth(QuizEdit, true)} />
         </Switch>
       </div>
       <Footer />
