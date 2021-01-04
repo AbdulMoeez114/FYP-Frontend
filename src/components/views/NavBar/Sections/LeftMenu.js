@@ -18,6 +18,9 @@ function LeftMenu(props) {
       <Menu.Item key="QuizEdit">
         <a href="/quiz/edit">Edit/Delete Quiz</a>
       </Menu.Item>
+      {/* <Menu.Item key="VideoDelete">
+        <a href="/video/delete">Delete Video</a>
+      </Menu.Item> */}
       {/* <SubMenu title={<span>Blogs</span>}>
       <MenuItemGroup title="Item 1">
         <Menu.Item key="setting:1">Option 1</Menu.Item>

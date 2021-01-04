@@ -11,6 +11,7 @@ import Footer from "./views/Footer/Footer";
 import UploadVideoPage from "./views/Video/UploadVideoPage";
 import QuizUploadPage from "./views/Quiz/QuizUploadPage";
 import QuizEdit from "./views/Quiz/QuizEdit";
+//import VideoDeleteComponent from "./views/Video/VideoDeleteComponent";
 
 function App() {
   return (
@@ -32,6 +33,11 @@ function App() {
             component={Auth(QuizUploadPage, true)}
           />
           <Route exact path="/quiz/edit" component={Auth(QuizEdit, true)} />
+          {/* <Route
+            exact
+            path="/video/delete"
+            component={Auth(VideoDeleteComponent, true)}
+          /> */}
         </Switch>
       </div>
       <Footer />

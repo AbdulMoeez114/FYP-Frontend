@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Typography, Button, Form, message, Input, Icon } from "antd";
+import { Typography, Button, Form, Input, Icon } from "antd";
 import Dropzone from "react-dropzone";
 import axios from "axios";
 import { useSelector } from "react-redux";
@@ -7,44 +7,38 @@ import { useSelector } from "react-redux";
 const { Title } = Typography;
 const { TextArea } = Input;
 
-const Private = [
-  { value: 0, label: "Private" },
-  { value: 1, label: "Public" },
-];
-
-const Categories = [
-  { value: 0, label: "Problem Solving" },
-  { value: 0, label: "Networks" },
-  { value: 0, label: "Number System" },
-];
-
 function UploadVideoPage(props) {
   const user = useSelector((state) => state.user);
 
   const [title, setTitle] = useState("");
   const [Description, setDescription] = useState("");
-  const [privacy, setPrivacy] = useState(0);
-  const [Category, setCategory] = useState();
+  const [Chapters, setChapters] = useState({
+    selectedChapter: "",
+    chaptersList: [],
+  });
   const [FilePath, setFilePath] = useState("");
   const [Duration, setDuration] = useState("");
   const [Thumbnail, setThumbnail] = useState("");
+
+  useEffect(() => {
+    axios.get(`/api/chapter/`).then((res) => {
+      console.log(res.data);
+      setChapters({ ...Chapters, chaptersList: res.data });
+    });
+    console.log(Chapters);
+  }, []);
 
   const handleChangeTitle = (event) => {
     setTitle(event.currentTarget.value);
   };
 
   const handleChangeDecsription = (event) => {
-    console.log(event.currentTarget.value);
-
     setDescription(event.currentTarget.value);
   };
 
-  const handleChangeOne = (event) => {
-    setPrivacy(event.currentTarget.value);
-  };
-
   const handleChangeTwo = (event) => {
-    setCategory(event.currentTarget.value);
+    console.log(event.currentTarget.value);
+    setChapters({ ...Chapters, selectedChapter: event.currentTarget.value });
   };
 
   const onSubmit = (event) => {
@@ -57,7 +51,7 @@ function UploadVideoPage(props) {
     if (
       title === "" ||
       Description === "" ||
-      Category === "" ||
+      Chapters === "" ||
       FilePath === "" ||
       Duration === "" ||
       Thumbnail === ""
@@ -65,20 +59,21 @@ function UploadVideoPage(props) {
       return alert("Please first fill all the fields");
     }
 
-    const variables = {
+    let variables = {
       writer: user.userData._id,
       title: title,
       description: Description,
-      privacy: privacy,
       filePath: FilePath,
-      category: Category,
       duration: Duration,
       thumbnail: Thumbnail,
     };
+    console.log(Chapters);
+    const data = { chapterid: Chapters.selectedChapter, variables };
+    console.log(data.chapterid);
 
-    axios.post("/api/video/uploadVideo", variables).then((response) => {
+    axios.post("/api/video/uploadVideo", data).then((response) => {
       if (response.data.success) {
-        alert("video Uploaded Successfully");
+        alert("Video uploaded successfully");
         props.history.push("/");
       } else {
         alert("Failed to upload video");
@@ -117,7 +112,7 @@ function UploadVideoPage(props) {
       }
     });
   };
-
+  console.log(Chapters.selectedChapter);
   return (
     <div style={{ maxWidth: "700px", margin: "2rem auto" }}>
       <div style={{ textAlign: "center", marginBottom: "2rem" }}>
@@ -162,21 +157,11 @@ function UploadVideoPage(props) {
         <TextArea onChange={handleChangeDecsription} value={Description} />
         <br />
         <br />
-
-        <select onChange={handleChangeOne}>
-          {Private.map((item, index) => (
-            <option key={index} value={item.value}>
-              {item.label}
-            </option>
-          ))}
-        </select>
-        <br />
-        <br />
-
         <select onChange={handleChangeTwo}>
-          {Categories.map((item, index) => (
-            <option key={index} value={item.label}>
-              {item.label}
+          <option value=""> Select Chapter Name</option>
+          {Chapters.chaptersList.map((chapter) => (
+            <option key={chapter._id} value={chapter._id}>
+              {chapter.chapterName}
             </option>
           ))}
         </select>
