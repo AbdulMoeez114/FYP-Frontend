@@ -46,14 +46,14 @@ class QuizEdit extends Component {
         alert("Failed to upload Quiz");
       }
     });
-    console.log(this.state.chapters);
-    console.log(this.state.questions);
-    console.log(e);
+    // console.log(this.state.chapters);
+    // console.log(this.state.questions);
+    // console.log(e);
   };
 
   deleteQuiz = () => {
     const URL = "/api/quiz/" + this.state.chapters.value;
-    console.log(URL);
+    // console.log(URL);
     axios.delete(URL).then((res) => {
       if (res.status === 404) alert(res.data);
       else if (res.status === 500)
@@ -96,27 +96,29 @@ class QuizEdit extends Component {
 
   render() {
     return (
-      <div style={{ padding: "20px", margin: "40px" }}>
-        <div className="row border rounded shadow p-2 mb-5">
-          <div className="col-sm-6 h3 text-primary">Edit Quiz</div>
+      <div
+        style={{ paddingLeft: "20px", paddingRight: "20px", margin: "10px" }}
+      >
+        <div className="row border-bottom border-dark p-2 mb-3">
+          <div className="col-sm-6 h3">Edit Quiz</div>
           <div className="col-sm-6 text-right">
             <button
               type="button"
-              className="btn btn-outline-primary mr-2"
+              className="btn btn-primary mr-2"
               onClick={this.addQuestion}
             >
               Add Question
             </button>
             <button
               type="button"
-              className="btn btn-outline-primary mr-2"
+              className="btn btn-primary mr-2"
               onClick={this.handleSubmit}
             >
               Save
             </button>
             <button
               type="button"
-              className="btn btn-outline-primary"
+              className="btn btn-primary"
               onClick={this.deleteQuiz}
             >
               Delete

@@ -6,13 +6,16 @@ function VideoDeleteComponent(props) {
   const [Chapters, setChapters] = useState([]);
 
   useEffect(() => {
+    getVideos();
+  }, []);
+
+  const getVideos = () => {
     axios.get(`/api/chapter/`).then((res) => {
       console.log(res.data);
       setChapters(res.data);
     });
     console.log(Chapters);
-  }, []);
-
+  };
   const deleteVideo = (e, id, ch_id) => {
     const variables = { ch_id, id };
     console.log(id);
@@ -20,7 +23,7 @@ function VideoDeleteComponent(props) {
     axios.delete("/api/video/delete-video", { data: variables }).then((res) => {
       if (res.status === 201) {
         alert(res.data);
-        //props.history.push("/");
+        getVideos();
       } else {
         alert("Failed to upload Quiz");
       }
@@ -29,8 +32,8 @@ function VideoDeleteComponent(props) {
 
   return (
     <div className="container m-3">
-      <h2>Uploads.</h2>
-      <hr />
+      <h2>Uploads</h2>
+      <hr className="border-dark" />
       {Chapters.map((chapter) => (
         <div className="row border rounded shadow p-2 m-5">
           <div className="col-sm-6 h4 text-dark" id={chapter._id}>
@@ -47,6 +50,7 @@ function VideoDeleteComponent(props) {
                 {topic.topicName}
                 <button
                   className="btn btn-danger"
+                  placement="right"
                   onClick={(e) => deleteVideo(e, topic.topicid, chapter._id)}
                 >
                   Delete

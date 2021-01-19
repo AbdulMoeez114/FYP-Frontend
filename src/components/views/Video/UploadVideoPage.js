@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Typography, Button, Form, Input, Icon } from "antd";
+import { Button, Form, Input, Icon } from "antd";
 import Dropzone from "react-dropzone";
 import axios from "axios";
 import { useSelector } from "react-redux";
 
-const { Title } = Typography;
 const { TextArea } = Input;
 
 function UploadVideoPage(props) {
@@ -115,8 +114,9 @@ function UploadVideoPage(props) {
   console.log(Chapters.selectedChapter);
   return (
     <div style={{ maxWidth: "700px", margin: "2rem auto" }}>
-      <div style={{ textAlign: "center", marginBottom: "2rem" }}>
-        <Title level={2}> Upload Video</Title>
+      <div style={{ textAlign: "Left", marginBottom: "2rem" }}>
+        <div className="col-sm-6 h3">Upload Video</div>
+        <hr className="border-dark" />
       </div>
 
       <Form onSubmit={onSubmit}>

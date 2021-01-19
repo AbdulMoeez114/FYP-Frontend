@@ -11,16 +11,16 @@ import Footer from "./views/Footer/Footer";
 import UploadVideoPage from "./views/Video/UploadVideoPage";
 import QuizUploadPage from "./views/Quiz/QuizUploadPage";
 import QuizEdit from "./views/Quiz/QuizEdit";
-//import VideoDeleteComponent from "./views/Video/VideoDeleteComponent";
+import VideoDeleteComponent from "./views/Video/VideoDeleteComponent";
 
 function App() {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <NavBar />
-      <div style={{ paddingTop: "75px", minHeight: "calc(100vh - 80px)" }}>
+      <div style={{ paddingTop: "75px" }}>
         <Switch>
-          <Route exact path="/" component={Auth(LandingPage, null)} />
-          <Route exact path="/login" component={Auth(LoginPage, false)} />
+          <Route exact path="/" component={Auth(LoginPage, false)} />
+          <Route exact path="/landing" component={Auth(LandingPage, true)} />
           <Route exact path="/register" component={Auth(RegisterPage, true)} />
           <Route
             exact
@@ -33,11 +33,11 @@ function App() {
             component={Auth(QuizUploadPage, true)}
           />
           <Route exact path="/quiz/edit" component={Auth(QuizEdit, true)} />
-          {/* <Route
+          <Route
             exact
             path="/video/delete"
             component={Auth(VideoDeleteComponent, true)}
-          /> */}
+          />
         </Switch>
       </div>
       <Footer />
