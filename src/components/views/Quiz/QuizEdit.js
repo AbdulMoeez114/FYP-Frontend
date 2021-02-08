@@ -60,7 +60,8 @@ class QuizEdit extends Component {
         alert("Quiz deletion failed! Server Side Error.");
       else if (res.status === 201) {
         alert("Quiz deleted!");
-        this.props.history.push("/quiz/edit");
+        this.setState({ questions: [] });
+        this.props.history.push("/landing");
       }
     });
   };

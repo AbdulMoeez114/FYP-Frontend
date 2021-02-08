@@ -41,7 +41,7 @@ class QuizUploadPage extends Component {
     axios.post(`/api/quiz/upload-quiz`, NewQuiz).then((res) => {
       if (res.status === 201) {
         alert("Quiz Uploaded Successfully");
-        this.props.history.push("/");
+        this.props.history.push("/landing");
       } else {
         alert("Failed to upload Quiz");
       }

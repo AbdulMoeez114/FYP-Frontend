@@ -30,9 +30,9 @@ function RightMenu(props) {
   } else {
     return (
       <Menu mode={props.mode}>
-        <Menu.Item key="app">
+        {/* <Menu.Item key="app">
           <a href="/register">Signup</a>
-        </Menu.Item>
+        </Menu.Item> */}
         <Menu.Item key="logout">
           <a onClick={logoutHandler}>Logout</a>
         </Menu.Item>

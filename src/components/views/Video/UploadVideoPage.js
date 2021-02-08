@@ -73,7 +73,7 @@ function UploadVideoPage(props) {
     axios.post("/api/video/uploadVideo", data).then((response) => {
       if (response.data.success) {
         alert("Video uploaded successfully");
-        props.history.push("/");
+        props.history.push("/landing");
       } else {
         alert("Failed to upload video");
       }

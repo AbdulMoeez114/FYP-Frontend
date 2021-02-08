@@ -43,14 +43,18 @@ function VideoDeleteComponent(props) {
           <div className="list-group inline">
             {chapter.topics.map((topic) => (
               <div
-                className="list-group-item"
+                className="list-group-item inline"
                 value={topic.topicid}
                 id={topic.topicid}
               >
-                {topic.topicName}
+                {topic.topicName}&nbsp;&nbsp;&nbsp;
                 <button
                   className="btn btn-danger"
-                  placement="right"
+                  style={{
+                    alignment: "right",
+                    //   right: "10px",
+                    //   bottom: "10px",
+                  }}
                   onClick={(e) => deleteVideo(e, topic.topicid, chapter._id)}
                 >
                   Delete

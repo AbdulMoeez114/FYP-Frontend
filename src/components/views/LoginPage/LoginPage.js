@@ -152,13 +152,13 @@ function LoginPage(props) {
                 >
                   Remember me
                 </Checkbox>
-                <a
+                {/* <a
                   className="login-form-forgot"
                   href="/reset_user"
                   style={{ float: "right" }}
                 >
                   forgot password
-                </a>
+                </a> */}
                 <div>
                   <Button
                     type="primary"
@@ -171,7 +171,6 @@ function LoginPage(props) {
                     Log in
                   </Button>
                 </div>
-                {/* Or <a href="/register">register now!</a> */}
               </Form.Item>
             </form>
           </div>
